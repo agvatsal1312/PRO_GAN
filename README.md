@@ -20,17 +20,15 @@ This project contains an implementation of Progressive Growing of GANs (PRO_GAN)
 - **Equalised Learning Rate:**
   The weights are scaled at runtime to ensure equalized learning rate across all layers. The scaling is done as follows:
   
-  $$
-  W_f = \frac{W_i}{c}
-  $$
+  ![W_f equation](a.png)
+  
   where $W_i$ is the initial weight and $c$ is the He initialization constant, $c = \sqrt{2/(k^2 c)}$ (with $k$ as kernel size and $c$ as number of input channels). This is implemented in the `WSConv2d` class in the code.
 
 - **Pixel Normalization:**
   Instead of Batch Normalization, Pixel Norm is used. The normalization for each pixel is computed as:
   
-  $$
-  b_{x, y} = \frac{a_{x, y}}{\sqrt{\frac{1}{N} \sum_{j=0}^{N-1} (a_{x, y}^j)^2 + \epsilon}}
-  $$
+  ![PixelNorm equation](b.png)
+  
   where $\epsilon = 10^{-8}$, $N$ is the number of channels.
   
   <sub>This is implemented in the <code>PixelNorm</code> class in the code.</sub>
@@ -38,9 +36,8 @@ This project contains an implementation of Progressive Growing of GANs (PRO_GAN)
 - **Fade-in (Smooth Transition):**
   To ensure a smooth transition when increasing image resolution, the output is interpolated between the previous and new layers:
   
-  $$
-  \text{output} = (1 - \alpha) \times \text{old} + \alpha \times \text{new}
-  $$
+  ![Fade-in equation](c.png)
+  
   where $\alpha$ is gradually increased from 0 to 1 during the transition phase.
 
 - **MiniBatch Training:**
